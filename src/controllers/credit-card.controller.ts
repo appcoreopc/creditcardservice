@@ -12,6 +12,7 @@ import {
   UserServiceBindings,
   UserRepository,
 } from '@loopback/authentication-jwt';
+import {authorize} from '@loopback/authorization';
 import {TokenService} from '@loopback/authentication';
 import {SecurityBindings, UserProfile} from '@loopback/security';
 import {authenticate} from '@loopback/authentication';
@@ -41,6 +42,9 @@ const CREDIT_RESPONSE: ResponseObject = {
 }
 
 @authenticate('jwt')
+@authorize({
+  allowedRoles: ['admin', 'customer']
+})
 export class CreditCardController {
   constructor(
     @inject(TokenServiceBindings.TOKEN_SERVICE)
