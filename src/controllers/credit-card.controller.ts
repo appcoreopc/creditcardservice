@@ -1,25 +1,26 @@
+/*
+
+eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE2MTYwNDA3MzEsImV4cCI6MTY0NzU3Njc3MiwiYXVkIjoid3d3LmV4YW1wbGUuY29tIiwic3ViIjoianJvY2tldEBleGFtcGxlLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6Im1hbmFnZXIifQ.PVpvo5o44dS7G79Cq-qb_-hebNbEg0ttx2gKk6WT-Zo
+
+*/
+
+
+
 import {inject} from '@loopback/core';
 import {
   Request,
   RestBindings,
   get, post, put, del,
   response,
-  ResponseObject,
+  ResponseObject, requestBody
 } from '@loopback/rest';
 import {
-  TokenServiceBindings,
-  MyUserService,
-  UserServiceBindings,
-  UserRepository,
+  TokenServiceBindings
 } from '@loopback/authentication-jwt';
 import {authorize} from '@loopback/authorization';
 import {TokenService} from '@loopback/authentication';
 import {SecurityBindings, UserProfile} from '@loopback/security';
 import {authenticate} from '@loopback/authentication';
-
-
-
-
 
 const CREDIT_RESPONSE: ResponseObject = {
   description: 'Ping',
@@ -47,23 +48,21 @@ const CREDIT_RESPONSE: ResponseObject = {
 
 @authenticate('jwt')
 @authorize({
-  allowedRoles: ['admin', 'customer']
+  allowedRoles: ['Manager', 'customer']
 })
 export class CreditCardController {
   constructor(
     @inject(TokenServiceBindings.TOKEN_SERVICE)
     public jwtService: TokenService,
-    @inject(UserServiceBindings.USER_SERVICE)
-    public userService: MyUserService,
     @inject(SecurityBindings.USER, {optional: true})
     public user: UserProfile,
     @inject(RestBindings.Http.REQUEST) 
     private req: Request) {}
 
    // Map to `GET /ping`
-   @get('/creditcard')
+   @get('/')
    @response(200, CREDIT_RESPONSE)
-   getCards(): object {
+   getCards(@requestBody() account: string): object {
      // Reply with a greeting, the current time, the url, and request headers
      return {
        greeting: 'Credit card service  from LoopBack',
@@ -74,20 +73,17 @@ export class CreditCardController {
    }
 
    // Map to `GET /ping`
-   @get('/creditcard/transactions')
+   @get('/transactions')
    @response(200, CREDIT_RESPONSE)
    getCardTransaction(): object {
      // Reply with a greeting, the current time, the url, and request headers
      return {
-       greeting: 'Credit card service  from LoopBack',
-       date: new Date(),
-       url: this.req.url,
-       headers: Object.assign({}, this.req.headers),
+       "message" : "hello there!!!"
      };
    }
 
    // Map to `GET /ping`
-   @post('/creditcard/cancel')
+   @post('/cancel')
    @response(200, CREDIT_RESPONSE)
    cancelCard(): object {
      // Reply with a greeting, the current time, the url, and request headers
@@ -100,7 +96,7 @@ export class CreditCardController {
    }
 
    // Map to `GET /ping`
-   @post('/creditcard/block')
+   @post('/block')
    @response(200, CREDIT_RESPONSE)
    blockCard(): object {
      // Reply with a greeting, the current time, the url, and request headers
@@ -113,7 +109,7 @@ export class CreditCardController {
    }
 
       // Map to `GET /ping`
-    @post('/creditcard/unblock')
+    @post('/unblock')
     @response(200, CREDIT_RESPONSE)
     unBlockCard(): object {
         // Reply with a greeting, the current time, the url, and request headers
@@ -127,7 +123,7 @@ export class CreditCardController {
    
 
    // Map to `GET /ping`
-   @post('/creditcard/activate')
+   @post('/activate')
    @response(200, CREDIT_RESPONSE)
    activateCard(): object {
      // Reply with a greeting, the current time, the url, and request headers

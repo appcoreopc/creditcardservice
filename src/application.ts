@@ -9,6 +9,9 @@ import {RestApplication} from '@loopback/rest';
 import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
 import {MySequence} from './sequence';
+import {
+  TokenServiceBindings
+} from '@loopback/authentication-jwt';
 
 import {AuthenticationComponent} from '@loopback/authentication';
 import {
@@ -31,6 +34,8 @@ export class CreditCardMicroServiceApplication extends BootMixin(
     this.component(AuthenticationComponent);
     // Mount jwt component
     this.component(JWTAuthenticationComponent);
+
+    this.bind(TokenServiceBindings.TOKEN_SECRET).to("qwertyuiopasdfghjklzxcvbnm123456");
 
     // Set up default home page
     this.static('/', path.join(__dirname, '../public'));
