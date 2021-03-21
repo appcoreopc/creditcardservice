@@ -4,8 +4,6 @@ eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQ
 
 */
 
-
-
 import {inject} from '@loopback/core';
 import {
   Request,
@@ -21,30 +19,7 @@ import {authorize} from '@loopback/authorization';
 import {TokenService} from '@loopback/authentication';
 import {SecurityBindings, UserProfile} from '@loopback/security';
 import {authenticate} from '@loopback/authentication';
-
-const CREDIT_RESPONSE: ResponseObject = {
-  description: 'Ping',
-  content: {
-    'application/json': {
-      schema: {
-        type: 'object',
-        title: 'PingResponse',
-        properties: {
-          greeting: {type: 'string'},
-          date: {type: 'string'},
-          url: {type: 'string'},
-          headers: {
-            type: 'object',
-            properties: {
-              'Content-Type': {type: 'string'},
-            },
-            additionalProperties: true,
-          },
-        },
-      },
-    },
-  },
-}
+import { PING_RESPONSE } from '../responses/ping_response';
 
 @authenticate('jwt')
 @authorize({
@@ -61,7 +36,7 @@ export class CreditCardController {
 
    // Map to `GET /ping`
    @get('/')
-   @response(200, CREDIT_RESPONSE)
+   @response(200, PING_RESPONSE)
    getCards(@requestBody() account: string): object {
      // Reply with a greeting, the current time, the url, and request headers
      return {
@@ -74,7 +49,7 @@ export class CreditCardController {
 
    // Map to `GET /ping`
    @get('/transactions')
-   @response(200, CREDIT_RESPONSE)
+   @response(200, PING_RESPONSE)
    getCardTransaction(): object {
      // Reply with a greeting, the current time, the url, and request headers
      return {
@@ -84,7 +59,7 @@ export class CreditCardController {
 
    // Map to `GET /ping`
    @post('/cancel')
-   @response(200, CREDIT_RESPONSE)
+   @response(200, PING_RESPONSE)
    cancelCard(): object {
      // Reply with a greeting, the current time, the url, and request headers
      return {
@@ -97,7 +72,7 @@ export class CreditCardController {
 
    // Map to `GET /ping`
    @post('/block')
-   @response(200, CREDIT_RESPONSE)
+   @response(200, PING_RESPONSE)
    blockCard(): object {
      // Reply with a greeting, the current time, the url, and request headers
      return {
@@ -110,7 +85,7 @@ export class CreditCardController {
 
       // Map to `GET /ping`
     @post('/unblock')
-    @response(200, CREDIT_RESPONSE)
+    @response(200, PING_RESPONSE)
     unBlockCard(): object {
         // Reply with a greeting, the current time, the url, and request headers
         return {
@@ -124,7 +99,7 @@ export class CreditCardController {
 
    // Map to `GET /ping`
    @post('/activate')
-   @response(200, CREDIT_RESPONSE)
+   @response(200, PING_RESPONSE)
    activateCard(): object {
      // Reply with a greeting, the current time, the url, and request headers
      return {
@@ -137,7 +112,7 @@ export class CreditCardController {
 
    // Map to `GET /ping`
    @post('/creditcard/apply')
-   @response(200, CREDIT_RESPONSE)
+   @response(200, PING_RESPONSE)
    applyForCard(): object {
      // Reply with a greeting, the current time, the url, and request headers
      return {
