@@ -10,7 +10,7 @@ import {
   RestBindings,
   get, post, put, del,
   response,
-  ResponseObject, requestBody
+  requestBody
 } from '@loopback/rest';
 import {
   TokenServiceBindings
@@ -19,7 +19,8 @@ import {authorize} from '@loopback/authorization';
 import {TokenService} from '@loopback/authentication';
 import {SecurityBindings, UserProfile} from '@loopback/security';
 import {authenticate} from '@loopback/authentication';
-import { PING_RESPONSE } from '../responses/ping_response';
+import { PING_RESPONSE } from '../responses/ping';
+import { GET_CARD_RESPONSE } from '../responses/getcard';
 
 @authenticate('jwt')
 @authorize({
@@ -34,13 +35,12 @@ export class CreditCardController {
     @inject(RestBindings.Http.REQUEST) 
     private req: Request) {}
 
-   // Map to `GET /ping`
    @get('/')
-   @response(200, PING_RESPONSE)
+   @response(200, GET_CARD_RESPONSE)
    getCards(@requestBody() account: string): object {
      // Reply with a greeting, the current time, the url, and request headers
      return {
-       greeting: 'Credit card service  from LoopBack',
+       greeting: 'Credit card service from LoopBack',
        date: new Date(),
        url: this.req.url,
        headers: Object.assign({}, this.req.headers),
